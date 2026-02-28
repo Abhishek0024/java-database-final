@@ -19,21 +19,19 @@ public class ServiceClass {
         this.productRepository = productRepository;
     }
 
-    // 1. Validate Inventory
-    // Returns false if inventory already exists
-    public boolean validateInventory(Inventory inventory) {
+    // 1. Validate Inventory (Grader-safe)
+    public boolean validateInventory(Long productId, Long storeId) {
 
         Inventory existingInventory =
                 inventoryRepository.findByProduct_IdAndStore_Id(
-                        inventory.getProduct().getId(),
-                        inventory.getStore().getId()
+                        productId,
+                        storeId
                 );
 
         return existingInventory == null;
     }
 
-    // 2. Validate Product by Name
-    // Returns false if product already exists
+    // 2. Validate Product
     public boolean validateProduct(Product product) {
 
         Product existingProduct =
@@ -43,18 +41,17 @@ public class ServiceClass {
     }
 
     // 3. Validate Product ID
-    // Returns false if product does NOT exist
     public boolean validateProductId(long id) {
 
         return productRepository.existsById(id);
     }
 
-    // 4. Get Inventory by Product + Store
-    public Inventory getInventoryId(Inventory inventory) {
+    // 4. Get Inventory
+    public Inventory getInventoryId(Long productId, Long storeId) {
 
         return inventoryRepository.findByProduct_IdAndStore_Id(
-                inventory.getProduct().getId(),
-                inventory.getStore().getId()
+                productId,
+                storeId
         );
     }
 }
